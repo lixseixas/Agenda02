@@ -5,41 +5,37 @@
 
 $("#btnPesquisarContas").click(function () {
 
-   // alert("entrou");
-
     BuscarAgendamentos();
 
 });
 
 function BuscarAgendamentos() {
-        
+
     //limpar tabela
     $('#TabelaAgendamentos').empty();
 
     dataInicial = $("#DataInicial").val();
     dataFinal = $("#DataFinal").val();
-   
+
     //Consumindo o serviço
     $.post("http://localhost:50747/Home/ListagemHorasDia/",
         {
             DataInicial: dataInicial,
             DataFinal: dataFinal,
-        }, function (dados) {                                
-               
-                //preenchendo a lista de resultados
-                for (var i = 0; i < dados.listaAgendamentosConsolidados.length; i++) {
+        }, function (dados) {
 
-                    $('#TabelaAgendamentos').append('<tr><td>' + ConverterDataJson(dados.listaAgendamentosConsolidados[i].data) +
-                        '</td><td>' + ConverterHoraSimples(dados.listaAgendamentosConsolidados[i].horas) +
-                        '</td><td>' + dados.listaAgendamentosConsolidados[i].totalTarefas +
-                        '</td><td>' + ConverterHoraSimples(dados.listaAgendamentosConsolidados[i].mediaHoras) +
-                        '</td><td>' + dados.listaAgendamentosConsolidados[i].percentualTarefasConcluidas +"%" +                        
-                       
-                        '</td></tr>');
+            //preenchendo a lista de resultados
+            for (var i = 0; i < dados.listaAgendamentosConsolidados.length; i++) {
 
-                }
-           
-           
+                $('#TabelaAgendamentos').append('<tr><td>' + ConverterDataJson(dados.listaAgendamentosConsolidados[i].data) +
+                    '</td><td>' + ConverterHoraSimples(dados.listaAgendamentosConsolidados[i].horas) +
+                    '</td><td>' + dados.listaAgendamentosConsolidados[i].totalTarefas +
+                    '</td><td>' + ConverterHoraSimples(dados.listaAgendamentosConsolidados[i].mediaHoras) +
+                    '</td><td>' + dados.listaAgendamentosConsolidados[i].percentualTarefasConcluidas + "%" +
+                    '</td></tr>');
+            }
+
+
         });
 }
 
@@ -52,9 +48,9 @@ function ConverterDataJson(data) {
         var ano = data.substring(0, 4);
         var mes = data.substring(5, 7);
         var dia = data.substring(8, 10);
-              
-            return dia + "/" + mes + "/" + ano;
-        
+
+        return dia + "/" + mes + "/" + ano;
+
     }
 }
 
@@ -65,9 +61,9 @@ function ConverterHoraJson(data) {
     } else {
         var hora = data.substring(11, 13);
         var minuto = data.substring(14, 16);
-              
+
         return hora + ":" + minuto;
-       
+
     }
 }
 

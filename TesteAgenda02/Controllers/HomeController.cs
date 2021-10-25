@@ -32,10 +32,9 @@ namespace TesteAgenda02.Controllers
         {
             List<AgendamentoModel> listaAgendamentos = new List<AgendamentoModel>();
             AgendamentoBd agendamentoBd = new AgendamentoBd();
-            string filtros = "";
-            agendamentoBd.ObterAgendamentos(_context, filtros, ref listaAgendamentos);
+            agendamentoBd.ObterAgendamentos(_context, ref listaAgendamentos);                        
 
-            return View(listaAgendamentos);
+            return View("Listagem", listaAgendamentos);
         }
 
         public IActionResult ListagemHorasDia()
@@ -62,7 +61,7 @@ namespace TesteAgenda02.Controllers
 
             agendamentoModel.ListaAgendamentosConsolidados = listaAgendamentos;
             return Json(agendamentoModel);
-            
+
         }
 
 
@@ -70,7 +69,8 @@ namespace TesteAgenda02.Controllers
         {
             AgendamentoModel agendamentoModel = new AgendamentoModel();
             agendamentoModel.Id = Guid.NewGuid();
-            agendamentoModel.Data = DateTime.Now;        
+            agendamentoModel.Data = DateTime.Now;
+            agendamentoModel.Prioridade = 1;
             return View(agendamentoModel);
         }
 
@@ -79,15 +79,15 @@ namespace TesteAgenda02.Controllers
 
             if (agendamentoModel.HoraInicio == agendamentoModel.HoraFim)
             {
-                mensagemErro= "A hora final e a hora inicial são iguais.";
+                mensagemErro = "A hora final e a hora inicial são iguais.";
                 return false;
             }
 
-            DateTime dataTarefa = agendamentoModel.Data.AddHours(agendamentoModel.HoraInicio.Hour)
+            DateTime dataInicioTarefa = agendamentoModel.Data.AddHours(agendamentoModel.HoraInicio.Hour)
                 .AddMinutes(agendamentoModel.HoraInicio.Minute);
 
             DateTime dataAgora = DateTime.Now;
-            if (dataTarefa < dataAgora)
+            if (dataInicioTarefa < dataAgora)
             {
                 mensagemErro = "A data inicial é menor que a data atual.";
                 return false;
@@ -102,7 +102,7 @@ namespace TesteAgenda02.Controllers
                 return false;
             }
 
-            if (dataFimTarefa < dataTarefa)
+            if (dataFimTarefa < dataInicioTarefa)
             {
                 mensagemErro = "A data final deve ser maior que a data atual.";
                 return false;
@@ -115,6 +115,17 @@ namespace TesteAgenda02.Controllers
             if (minutosTotais > 300)
             {
                 mensagemErro = "O tempo da tarefa é maior que 5 horas.";
+                return false;
+            }
+
+            AgendamentoBd agendamentoBd = new AgendamentoBd();
+            bool retornoSobreposicao = agendamentoBd.ValidarSobreposicaoAgendamentos(_context,
+                                                                                    agendamentoModel.Id,
+                                                                                    agendamentoModel.Data,
+                                                                                    dataInicioTarefa, dataFimTarefa);
+            if (retornoSobreposicao == false)
+            {
+                mensagemErro = "Sobreposição de tarefa, por favor selecione outro horário.";
                 return false;
             }
 
@@ -136,14 +147,16 @@ namespace TesteAgenda02.Controllers
                 ModelState.AddModelError("", mensagemErro);
                 return View(agendamentoModel);
             }
-           
+
 
             agendamentoModel.Id = Guid.NewGuid();
+            agendamentoModel.HoraInicio = agendamentoModel.Data.AddHours(agendamentoModel.HoraInicio.Hour).AddMinutes(agendamentoModel.HoraInicio.Minute);
+            agendamentoModel.HoraFim = agendamentoModel.Data.AddHours(agendamentoModel.HoraFim.Hour).AddMinutes(agendamentoModel.HoraFim.Minute); ;
 
             AgendamentoBd agendamentoBd = new AgendamentoBd();
             agendamentoBd.IncluirAgendamento(_context, agendamentoModel);
 
-            return View("Index");
+            return Listagem();
         }
 
         public IActionResult Edicao(Guid id)
@@ -173,12 +186,18 @@ namespace TesteAgenda02.Controllers
                 return View("Inclusao", agendamentoModel);
             }
 
-           
+
             agendamentoModel.Inclusao = "edicao";
             AgendamentoBd agendamentoBd = new AgendamentoBd();
+
+            agendamentoModel.HoraInicio = agendamentoModel.Data.AddHours(agendamentoModel.HoraInicio.Hour).AddMinutes(agendamentoModel.HoraInicio.Minute);
+            agendamentoModel.HoraFim = agendamentoModel.Data.AddHours(agendamentoModel.HoraFim.Hour).AddMinutes(agendamentoModel.HoraFim.Minute); ;
+
+
             agendamentoBd.IncluirAgendamento(_context, agendamentoModel);
 
-            return View("Index");
+           
+            return Listagem();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

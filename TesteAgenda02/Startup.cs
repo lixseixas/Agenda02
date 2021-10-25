@@ -30,7 +30,9 @@ namespace TesteAgenda02
             services.AddDbContext<AgendaContexto>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddDatabaseDeveloperPageExceptionFilter();
+            //descomente para utilizar o localDB
+            //options.UseSqlServer(Configuration.GetConnectionString("LocalDbConnection")));
+
 
             // Add framework services.
             services.AddMvc();

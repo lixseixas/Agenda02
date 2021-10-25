@@ -12,14 +12,11 @@ namespace TesteAgenda02.Bl
         public AgendaContexto(DbContextOptions<AgendaContexto> options) : base(options)
         {
         }
-        public DbSet<AgendamentoModel> Agendamentos { get; set; }
-      
+        public DbSet<AgendamentoModel> Agendamentos { get; set; }      
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AgendamentoModel>().ToTable("Agendamentos");
-            //modelBuilder.Entity<Matricula>().ToTable("Matricula");
-            //modelBuilder.Entity<Estudante>().ToTable("Estudante");
+            modelBuilder.Entity<AgendamentoModel>().ToTable("Agendamentos");            
         }
     }
 }

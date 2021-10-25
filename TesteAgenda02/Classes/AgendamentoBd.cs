@@ -11,7 +11,7 @@ namespace TesteAgenda02.Bl
     {
         public void IncluirAgendamento(AgendaContexto context, AgendamentoModel agendamentoModel)
         {
-            
+
 
 
             if (agendamentoModel.Inclusao == "edicao")
@@ -24,7 +24,7 @@ namespace TesteAgenda02.Bl
                 agendamentoObtidoModel.Data = agendamentoModel.Data;
                 agendamentoObtidoModel.Titulo = agendamentoModel.Titulo;
                 agendamentoObtidoModel.HoraInicio = agendamentoModel.HoraInicio;
-                agendamentoObtidoModel.HoraFim = agendamentoModel.HoraFim;
+                 agendamentoObtidoModel.HoraFim = agendamentoModel.HoraFim;
                 agendamentoObtidoModel.Prioridade = agendamentoModel.Prioridade;
                 agendamentoObtidoModel.Finalizada = agendamentoModel.Finalizada;
 
@@ -38,7 +38,7 @@ namespace TesteAgenda02.Bl
 
         }
 
-        public void ObterAgendamentos(AgendaContexto context, string filtros, ref List<AgendamentoModel> listaAgendamentos)
+        public void ObterAgendamentos(AgendaContexto context, ref List<AgendamentoModel> listaAgendamentos)
         {
             listaAgendamentos = context.Agendamentos.OrderBy(p => p.Data).ToList();
 
@@ -93,7 +93,6 @@ namespace TesteAgenda02.Bl
                         totalHorasConcluidas = totalHorasConcluidas + horasTarefa;
                     }
                 }
-              //  teste
 
                 consolidado.Data = listaTarefas.FirstOrDefault().Data;
                 consolidado.Horas = totalHoras.ToString();
@@ -103,14 +102,14 @@ namespace TesteAgenda02.Bl
                 //calculando o percentual
                 double minutosTotais = totalHoras.TotalMinutes;
                 double minutosConcluidos = totalHorasConcluidas.TotalMinutes;
-                double diferenca = minutosConcluidos/ minutosTotais;
-                
-                consolidado.PercentualTarefasConcluidas = diferenca = Math.Round(diferenca *100);
+                double diferenca = minutosConcluidos / minutosTotais;
+
+                consolidado.PercentualTarefasConcluidas = diferenca = Math.Round(diferenca * 100);
 
                 listaConsolidados.Add(consolidado);
             }
 
-           
+
         }
 
 
@@ -124,6 +123,66 @@ namespace TesteAgenda02.Bl
             }
 
         }
+
+        public bool ValidarSobreposicaoAgendamentos(AgendaContexto context, Guid idAgendamento, DateTime data, DateTime dataInicial, DateTime dataFinal)
+        {
+            AgendamentoModel itemRetornoBanco = new AgendamentoModel();
+
+            //filtra todos os agendamentos da mesma data e com id diferente
+            var listaFiltrada = context.Agendamentos.Where(p => p.Data >= data && p.Id != idAgendamento)
+                                                                .OrderBy(p => p.Data).ToList();
+
+                       
+            if (listaFiltrada == null) //--> se nao tiver nada no banco
+            {
+                return true;
+            }
+
+            // --> tenta encontrar algum agendamento que contenha a hora inicial
+            itemRetornoBanco = listaFiltrada.Where(p => p.HoraInicio <= dataInicial
+                                 && p.HoraFim >= dataInicial).FirstOrDefault();
+
+            if (itemRetornoBanco != null) //--> se já tiver cadastrado
+            {               
+                return false;
+            }
+            else
+            {
+                // --> tenta encontrar alguma config. que contenha a hora final
+                itemRetornoBanco = listaFiltrada.Where(p => p.HoraInicio <= dataFinal
+                                 && p.HoraFim >= dataFinal).FirstOrDefault();
+            }
+
+            if (itemRetornoBanco != null)  //--> se já tiver cadastrado
+            {                
+                return false;
+            }
+            else
+            {
+                // ---> Tenta encontrar uma hora que contenha a hora adicionada
+                itemRetornoBanco = listaFiltrada.Where(p => p.HoraInicio <= dataInicial
+                    && p.HoraFim >= dataFinal ).FirstOrDefault();
+            }
+            if (itemRetornoBanco != null)  //--> se houver
+            {               
+                return false;
+            }
+            else
+            {
+                // ---> Tenta encontrar uma hora que esteja contida dentro da hora adicionada
+                itemRetornoBanco = listaFiltrada.Where(p => p.HoraInicio >= dataInicial
+                    && p.HoraFim <= dataFinal ).FirstOrDefault();
+
+            }
+            if (itemRetornoBanco != null)  //--> se houver
+            {               
+                return false;
+            }
+
+            return true;
+
+        }
+
     }
 }
 
