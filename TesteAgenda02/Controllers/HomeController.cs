@@ -32,7 +32,12 @@ namespace TesteAgenda02.Controllers
         {
             List<AgendamentoModel> listaAgendamentos = new List<AgendamentoModel>();
             AgendamentoBd agendamentoBd = new AgendamentoBd();
-            agendamentoBd.ObterAgendamentos(_context, ref listaAgendamentos);                        
+            bool retorno = agendamentoBd.ObterAgendamentos(_context, ref listaAgendamentos);
+
+            if (retorno == false)
+            {
+                return View("Error");
+            }
 
             return View("Listagem", listaAgendamentos);
         }
@@ -56,8 +61,13 @@ namespace TesteAgenda02.Controllers
 
             List<AgendamentoConsolidadoModel> listaAgendamentos = new List<AgendamentoConsolidadoModel>();
             AgendamentoBd agendamentoBd = new AgendamentoBd();
-            agendamentoBd.ObterAgendamentosConsolidados(_context, agendamentoModel.DataInicial,
+            bool retorno = agendamentoBd.ObterAgendamentosConsolidados(_context, agendamentoModel.DataInicial,
                                                         agendamentoModel.DataFinal, ref listaAgendamentos);
+
+            if (retorno == false)
+            {
+                return View("Error");
+            }
 
             agendamentoModel.ListaAgendamentosConsolidados = listaAgendamentos;
             return Json(agendamentoModel);
@@ -154,7 +164,12 @@ namespace TesteAgenda02.Controllers
             agendamentoModel.HoraFim = agendamentoModel.Data.AddHours(agendamentoModel.HoraFim.Hour).AddMinutes(agendamentoModel.HoraFim.Minute); ;
 
             AgendamentoBd agendamentoBd = new AgendamentoBd();
-            agendamentoBd.IncluirAgendamento(_context, agendamentoModel);
+            bool retorno = agendamentoBd.IncluirAgendamento(_context, agendamentoModel);
+
+            if (retorno == false)
+            {
+                return View("Error");
+            }
 
             return Listagem();
         }
@@ -164,7 +179,12 @@ namespace TesteAgenda02.Controllers
             AgendamentoModel agendamentoModel = new AgendamentoModel();
 
             AgendamentoBd agendamentoBd = new AgendamentoBd();
-            agendamentoBd.ObterAgendamento(_context, id, ref agendamentoModel);
+            bool retorno = agendamentoBd.ObterAgendamento(_context, id, ref agendamentoModel);
+
+            if (retorno == false)
+            {
+                return View("Error");
+            }
 
             return View("Inclusao", agendamentoModel);
         }
@@ -193,10 +213,12 @@ namespace TesteAgenda02.Controllers
             agendamentoModel.HoraInicio = agendamentoModel.Data.AddHours(agendamentoModel.HoraInicio.Hour).AddMinutes(agendamentoModel.HoraInicio.Minute);
             agendamentoModel.HoraFim = agendamentoModel.Data.AddHours(agendamentoModel.HoraFim.Hour).AddMinutes(agendamentoModel.HoraFim.Minute); ;
 
+            bool retorno = agendamentoBd.IncluirAgendamento(_context, agendamentoModel);
+            if (retorno == false)
+            {
+                return View("Error");
+            }
 
-            agendamentoBd.IncluirAgendamento(_context, agendamentoModel);
-
-           
             return Listagem();
         }
 

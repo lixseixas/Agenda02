@@ -15,8 +15,7 @@ namespace TesteAgenda02.Bl
 
             // procura por qualquer agendamento
             if (context.Agendamentos.Any())
-            {
-              
+            {              
                 return;  //O banco foi inicializado
             }                
 
