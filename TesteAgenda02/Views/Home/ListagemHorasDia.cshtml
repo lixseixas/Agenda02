@@ -1,0 +1,80 @@
+﻿@model TesteAgenda02.Models.PesquisaAgendamentoModel
+@{
+    ViewData["Title"] = "Listagem de horas por dia";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+
+
+    @Html.LabelFor(model => model.DataInicial, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.EditorFor(model => model.DataInicial, new { htmlAttributes = new { @class = "form-control" } })
+
+    </div>
+
+    @Html.LabelFor(model => model.DataFinal, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-5">
+        @Html.EditorFor(model => model.DataFinal, new { htmlAttributes = new { @class = "form-control" } })
+
+    </div>
+
+    <br />
+
+    <div class="form-group">
+        <div class="col-md-2 col-lg-offset-2">
+            <button type="button" id="btnPesquisarContas" class="btn btn-primary">
+                Pesquisar
+            </button>
+        </div>
+    </div>
+
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Data
+            </th>
+            <th>
+                Total de horas
+            </th>
+            <th>
+                Total de tarefas
+            </th>
+            <th>
+                Média de horas
+            </th>
+           
+            <th>
+                Percentual das tarefas concluídas
+            </th>
+        </tr>
+    </thead>
+    <tbody id="TabelaAgendamentos">
+        @foreach (var item in Model.ListaAgendamentosConsolidados)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Horas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalTarefas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MediaHoras)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PercentualTarefasConcluidas)
+                </td>              
+
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
