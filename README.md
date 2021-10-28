@@ -10,3 +10,5 @@
 # Some asp.net tags waere replaced by .net 4.6 due to the deadline.
 # This project took 8 hours to be concluded.
 # Source: https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-5.0
+
+https://github.com/lixseixas/Agenda02/blob/main/sis_hours.png
