@@ -16,9 +16,9 @@
 # ------------------------- List ------------------------- 
 ![alt text](https://github.com/lixseixas/Agenda02/blob/main/sis_listagem.png)
 
-# ------------------ Summarize the interval ------------------- 
+# --------------Summarize the interval ------------------- 
 ![alt text](https://github.com/lixseixas/Agenda02/blob/main/sis_hours.png)
 
-#  ------------------------- add/edit  ------------------------- 
+#  -------------------- add/edit  ------------------------ 
 ![alt text](https://github.com/lixseixas/Agenda02/blob/main/sis_include.png)
 
