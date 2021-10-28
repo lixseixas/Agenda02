@@ -1,11 +1,12 @@
 # Agenda02
-# O projeto está configurado com o Microsoft Sql Server Express.
-# Dentro do arquivo appsettings.json existem 2 conexões pré configuradas LOCALDB e SQLEXPRESS (ambas com a segurança integrada do Windows).
-# Caso você possua o sqlExpress e o modo Misto esteja ativo não precisará alterar nada.
-# Caso você deseje utilizar o LOCALDB basta alterar o arquivo Startup.sc.
-# Todas as dependências necessárias carregadas pelo Nuget e enviadas para o GITHUB.
-# Basta baixar o projeto para uma pasta em seu computador.
-# Este projeto foi desenvolvido no VISUAL STUDIO COMMUNITY 2019.
-# Abra o projeto e execute em http://localhost:50747/
-# O EntityFramework deverá criar as tabelas automaticamente.
-# Fonte: https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-5.0
+# This project is configured to use Microsoft Sql Server Express.
+# Inside the file appsettings.json there are 2 pre existent connections: LOCALDB and SQLEXPRESS (both Windows integrated security).
+# If you prefer LOCALDB just change the file Startup.sc.
+# Any needed dependencis are already loaded by nuget and sent to GITHUB
+# Just download the project to your computer
+# This project was developed in VISUAL STUDIO COMMUNITY 2019.
+# Open the project and execute as http://localhost:50747/
+# The EntityFramework must create any needed table.
+# Some asp.net tags waere replaced by .net 4.6 due to the deadline.
+# This project took 8 hours to be concluded.
+# Source: https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-5.0
