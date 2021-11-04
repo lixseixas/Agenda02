@@ -4,23 +4,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TesteAgenda02.Models
 {
-    public class AgendamentoConsolidadoModel
+    public class SummarizedTasksModel
     {
         [NotMapped]
         [DataType(DataType.Date)]
-        public DateTime Data { get; set; }
+        public DateTime Date { get; set; }
 
         [NotMapped]       
-        public string Horas { get; set; }
+        public string Hours { get; set; }
 
         [NotMapped]
-        public int TotalTarefas { get; set; }
+        public int TotalTasks { get; set; }
 
         [NotMapped]
-        public string MediaHoras { get; set; }
+        public string AverageHours { get; set; }
 
         [NotMapped]
-        public double PercentualTarefasConcluidas { get; set; }
+        public double PercentualConcludedTasks { get; set; }
 
 
     }

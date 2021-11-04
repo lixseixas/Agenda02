@@ -3,35 +3,35 @@
 
 // Write your JavaScript code.
 
-$("#btnPesquisarContas").click(function () {
+$("#btnFindTasks").click(function () {
 
-    BuscarAgendamentos();
+    FindTasks();
 
 });
 
-function BuscarAgendamentos() {
+function FindTasks() {
 
     //limpar tabela
-    $('#TabelaAgendamentos').empty();
+    $('#TableTasks').empty();
 
-    dataInicial = $("#DataInicial").val();
-    dataFinal = $("#DataFinal").val();
+    dataInicial = $("#InitialDate").val();
+    dataFinal = $("#FinalDate").val();
 
     //Consumindo o serviço
-    $.post("http://localhost:50747/Home/ListagemHorasDia/",
+    $.post("http://localhost:50747/Home/ListHoursPerDay/",
         {
-            DataInicial: dataInicial,
-            DataFinal: dataFinal,
+            InitialDate: dataInicial,
+            FinalDate: dataFinal,
         }, function (dados) {
 
             //preenchendo a lista de resultados
-            for (var i = 0; i < dados.listaAgendamentosConsolidados.length; i++) {
+            for (var i = 0; i < dados.listTasksSummarized.length; i++) {
 
-                $('#TabelaAgendamentos').append('<tr><td>' + ConverterDataJson(dados.listaAgendamentosConsolidados[i].data) +
-                    '</td><td>' + ConverterHoraSimples(dados.listaAgendamentosConsolidados[i].horas) +
-                    '</td><td>' + dados.listaAgendamentosConsolidados[i].totalTarefas +
-                    '</td><td>' + ConverterHoraSimples(dados.listaAgendamentosConsolidados[i].mediaHoras) +
-                    '</td><td>' + dados.listaAgendamentosConsolidados[i].percentualTarefasConcluidas + "%" +
+                $('#TableTasks').append('<tr><td>' + ConverterDataJson(dados.listTasksSummarized[i].date) +
+                    '</td><td>' + ConverterHoraSimples(dados.listTasksSummarized[i].hours) +
+                    '</td><td>' + dados.listTasksSummarized[i].totalTasks +
+                    '</td><td>' + ConverterHoraSimples(dados.listTasksSummarized[i].averageHours) +
+                    '</td><td>' + dados.listTasksSummarized[i].percentualConcludedTasks + "%" +
                     '</td></tr>');
             }
 

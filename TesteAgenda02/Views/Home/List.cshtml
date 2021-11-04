@@ -1,0 +1,72 @@
+﻿@model IEnumerable<TesteAgenda02.Models.TaskModel>
+@{
+    ViewData["Title"] = "List";
+}
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Initial Hour
+            </th>
+            <th>
+                Final Hour
+            </th>
+            <th>
+                Priority
+            </th>
+            <th>
+                Ended
+            </th>
+            <th>
+                Options
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InitialHour)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinalHour)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PriorityName)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ended)
+                </td>
+
+
+
+                <td>
+                    <a asp-action="Edicao" asp-route-id="@item.Id">Edit</a>                  
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

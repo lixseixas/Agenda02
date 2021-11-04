@@ -7,16 +7,16 @@ using TesteAgenda02.Models;
 
 namespace TesteAgenda02.Bl
 {
-    public class AgendaContexto : DbContext
+    public class TaskContext : DbContext
     {
-        public AgendaContexto(DbContextOptions<AgendaContexto> options) : base(options)
+        public TaskContext(DbContextOptions<TaskContext> options) : base(options)
         {
         }
-        public DbSet<AgendamentoModel> Agendamentos { get; set; }      
+        public DbSet<TaskModel> Tasks { get; set; }      
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AgendamentoModel>().ToTable("Agendamentos");            
+            modelBuilder.Entity<TaskModel>().ToTable("Tasks");            
         }
     }
 }

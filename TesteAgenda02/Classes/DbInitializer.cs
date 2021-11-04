@@ -9,12 +9,12 @@ namespace TesteAgenda02.Bl
     public class DbInitializer
     {       
       
-        public static void Initialize(AgendaContexto context)
+        public static void Initialize(TaskContext context)
         {
             context.Database.EnsureCreated();
 
             // procura por qualquer agendamento
-            if (context.Agendamentos.Any())
+            if (context.Tasks.Any())
             {              
                 return;  //O banco foi inicializado
             }                

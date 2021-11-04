@@ -15,9 +15,9 @@ namespace TesteAgenda02.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly AgendaContexto _context;
+        private readonly TaskContext _context;
 
-        public HomeController(ILogger<HomeController> logger, AgendaContexto context)
+        public HomeController(ILogger<HomeController> logger, TaskContext context)
         {
             _logger = logger;
             _context = context;
@@ -28,73 +28,73 @@ namespace TesteAgenda02.Controllers
             return View();
         }
 
-        public IActionResult Listagem()
+        public IActionResult List()
         {
-            List<AgendamentoModel> listaAgendamentos = new List<AgendamentoModel>();
-            AgendamentoBd agendamentoBd = new AgendamentoBd();
-            bool retorno = agendamentoBd.ObterAgendamentos(_context, ref listaAgendamentos);
+            List<TaskModel> taskList = new List<TaskModel>();
+            TasksDal agendamentoBd = new TasksDal();
+            bool retorno = agendamentoBd.GetTasks(_context, ref taskList);
 
             if (retorno == false)
             {
                 return View("Error");
             }
 
-            return View("Listagem", listaAgendamentos);
+            return View("List", taskList);
         }
 
-        public IActionResult ListagemHorasDia()
+        public IActionResult ListHoursPerDay()
         {
-            List<AgendamentoConsolidadoModel> listaAgendamentos = new List<AgendamentoConsolidadoModel>();
+            List<SummarizedTasksModel> listaTasks = new List<SummarizedTasksModel>();
 
-            PesquisaAgendamentoModel pesquisaModel = new PesquisaAgendamentoModel();
-            pesquisaModel.ListaAgendamentosConsolidados = listaAgendamentos;
-            pesquisaModel.DataInicial = DateTime.Now.AddDays(-7);
-            pesquisaModel.DataFinal = DateTime.Now.AddDays(7);
+            SearchTaskModel pesquisaModel = new SearchTaskModel();
+            pesquisaModel.ListTasksSummarized = listaTasks;
+            pesquisaModel.InitialDate = DateTime.Now.AddDays(-7);
+            pesquisaModel.FinalDate = DateTime.Now.AddDays(7);
 
             return View(pesquisaModel);
         }
 
 
         [HttpPost]
-        public IActionResult ListagemHorasDia(PesquisaAgendamentoModel agendamentoModel)
+        public IActionResult ListHoursPerDay(SearchTaskModel agendamentoModel)
         {
 
-            List<AgendamentoConsolidadoModel> listaAgendamentos = new List<AgendamentoConsolidadoModel>();
-            AgendamentoBd agendamentoBd = new AgendamentoBd();
-            bool retorno = agendamentoBd.ObterAgendamentosConsolidados(_context, agendamentoModel.DataInicial,
-                                                        agendamentoModel.DataFinal, ref listaAgendamentos);
+            List<SummarizedTasksModel> listaTasks = new List<SummarizedTasksModel>();
+            TasksDal agendamentoBd = new TasksDal();
+            bool retorno = agendamentoBd.ObterTasksConsolidados(_context, agendamentoModel.InitialDate,
+                                                        agendamentoModel.FinalDate, ref listaTasks);
 
             if (retorno == false)
             {
                 return View("Error");
             }
 
-            agendamentoModel.ListaAgendamentosConsolidados = listaAgendamentos;
+            agendamentoModel.ListTasksSummarized = listaTasks;
             return Json(agendamentoModel);
 
         }
 
 
-        public IActionResult Inclusao()
+        public IActionResult Include()
         {
-            AgendamentoModel agendamentoModel = new AgendamentoModel();
+            TaskModel agendamentoModel = new TaskModel();
             agendamentoModel.Id = Guid.NewGuid();
-            agendamentoModel.Data = DateTime.Now;
-            agendamentoModel.Prioridade = 1;
+            agendamentoModel.Date = DateTime.Now;
+            agendamentoModel.Priority = 1;
             return View(agendamentoModel);
         }
 
-        bool ValidarAgendamento(AgendamentoModel agendamentoModel, ref string mensagemErro)
+        bool ValidarAgendamento(TaskModel agendamentoModel, ref string mensagemErro)
         {
 
-            if (agendamentoModel.HoraInicio == agendamentoModel.HoraFim)
+            if (agendamentoModel.InitialHour == agendamentoModel.FinalHour)
             {
                 mensagemErro = "A hora final e a hora inicial são iguais.";
                 return false;
             }
 
-            DateTime dataInicioTarefa = agendamentoModel.Data.AddHours(agendamentoModel.HoraInicio.Hour)
-                .AddMinutes(agendamentoModel.HoraInicio.Minute);
+            DateTime dataInicioTarefa = agendamentoModel.Date.AddHours(agendamentoModel.InitialHour.Hour)
+                .AddMinutes(agendamentoModel.InitialHour.Minute);
 
             DateTime dataAgora = DateTime.Now;
             if (dataInicioTarefa < dataAgora)
@@ -103,8 +103,8 @@ namespace TesteAgenda02.Controllers
                 return false;
             }
 
-            DateTime dataFimTarefa = agendamentoModel.Data.AddHours(agendamentoModel.HoraFim.Hour)
-               .AddMinutes(agendamentoModel.HoraFim.Minute);
+            DateTime dataFimTarefa = agendamentoModel.Date.AddHours(agendamentoModel.FinalHour.Hour)
+               .AddMinutes(agendamentoModel.FinalHour.Minute);
 
             if (dataFimTarefa < dataAgora)
             {
@@ -118,7 +118,7 @@ namespace TesteAgenda02.Controllers
                 return false;
             }
 
-            TimeSpan horasTarefa = DateTime.Parse(agendamentoModel.HoraFim.ToShortTimeString()).Subtract(DateTime.Parse(agendamentoModel.HoraInicio.ToShortTimeString()));
+            TimeSpan horasTarefa = DateTime.Parse(agendamentoModel.FinalHour.ToShortTimeString()).Subtract(DateTime.Parse(agendamentoModel.InitialHour.ToShortTimeString()));
 
             double minutosTotais = horasTarefa.TotalMinutes;
 
@@ -128,10 +128,10 @@ namespace TesteAgenda02.Controllers
                 return false;
             }
 
-            AgendamentoBd agendamentoBd = new AgendamentoBd();
-            bool retornoSobreposicao = agendamentoBd.ValidarSobreposicaoAgendamentos(_context,
+            TasksDal agendamentoBd = new TasksDal();
+            bool retornoSobreposicao = agendamentoBd.ValidarSobreposicaoTasks(_context,
                                                                                     agendamentoModel.Id,
-                                                                                    agendamentoModel.Data,
+                                                                                    agendamentoModel.Date,
                                                                                     dataInicioTarefa, dataFimTarefa);
             if (retornoSobreposicao == false)
             {
@@ -143,7 +143,7 @@ namespace TesteAgenda02.Controllers
         }
 
         [HttpPost]
-        public IActionResult Inclusao(AgendamentoModel agendamentoModel)
+        public IActionResult Include(TaskModel agendamentoModel)
         {
             if (!ModelState.IsValid)
             {
@@ -160,25 +160,25 @@ namespace TesteAgenda02.Controllers
 
 
             agendamentoModel.Id = Guid.NewGuid();
-            agendamentoModel.HoraInicio = agendamentoModel.Data.AddHours(agendamentoModel.HoraInicio.Hour).AddMinutes(agendamentoModel.HoraInicio.Minute);
-            agendamentoModel.HoraFim = agendamentoModel.Data.AddHours(agendamentoModel.HoraFim.Hour).AddMinutes(agendamentoModel.HoraFim.Minute); ;
+            agendamentoModel.InitialHour = agendamentoModel.Date.AddHours(agendamentoModel.InitialHour.Hour).AddMinutes(agendamentoModel.InitialHour.Minute);
+            agendamentoModel.FinalHour = agendamentoModel.Date.AddHours(agendamentoModel.FinalHour.Hour).AddMinutes(agendamentoModel.FinalHour.Minute); ;
 
-            AgendamentoBd agendamentoBd = new AgendamentoBd();
-            bool retorno = agendamentoBd.IncluirAgendamento(_context, agendamentoModel);
+            TasksDal agendamentoBd = new TasksDal();
+            bool retorno = agendamentoBd.AddTask(_context, agendamentoModel);
 
             if (retorno == false)
             {
                 return View("Error");
             }
 
-            return Listagem();
+            return List();
         }
 
-        public IActionResult Edicao(Guid id)
+        public IActionResult Edit(Guid id)
         {
-            AgendamentoModel agendamentoModel = new AgendamentoModel();
+            TaskModel agendamentoModel = new TaskModel();
 
-            AgendamentoBd agendamentoBd = new AgendamentoBd();
+            TasksDal agendamentoBd = new TasksDal();
             bool retorno = agendamentoBd.ObterAgendamento(_context, id, ref agendamentoModel);
 
             if (retorno == false)
@@ -191,11 +191,11 @@ namespace TesteAgenda02.Controllers
 
 
         [HttpPost]
-        public IActionResult Edicao(AgendamentoModel agendamentoModel)
+        public IActionResult Edit(TaskModel agendamentoModel)
         {
             if (!ModelState.IsValid)
             {
-                return View("Inclusao", agendamentoModel);
+                return View("Include", agendamentoModel);
             }
 
             string mensagemErro = "";
@@ -203,23 +203,23 @@ namespace TesteAgenda02.Controllers
             if (!ValidarAgendamento(agendamentoModel, ref mensagemErro))
             {
                 ModelState.AddModelError("", mensagemErro);
-                return View("Inclusao", agendamentoModel);
+                return View("Include", agendamentoModel);
             }
 
 
-            agendamentoModel.Inclusao = "edicao";
-            AgendamentoBd agendamentoBd = new AgendamentoBd();
+            agendamentoModel.Inclusion = "edit";
+            TasksDal agendamentoBd = new TasksDal();
 
-            agendamentoModel.HoraInicio = agendamentoModel.Data.AddHours(agendamentoModel.HoraInicio.Hour).AddMinutes(agendamentoModel.HoraInicio.Minute);
-            agendamentoModel.HoraFim = agendamentoModel.Data.AddHours(agendamentoModel.HoraFim.Hour).AddMinutes(agendamentoModel.HoraFim.Minute); ;
+            agendamentoModel.InitialHour = agendamentoModel.Date.AddHours(agendamentoModel.InitialHour.Hour).AddMinutes(agendamentoModel.InitialHour.Minute);
+            agendamentoModel.FinalHour = agendamentoModel.Date.AddHours(agendamentoModel.FinalHour.Hour).AddMinutes(agendamentoModel.FinalHour.Minute); ;
 
-            bool retorno = agendamentoBd.IncluirAgendamento(_context, agendamentoModel);
+            bool retorno = agendamentoBd.AddTask(_context, agendamentoModel);
             if (retorno == false)
             {
                 return View("Error");
             }
 
-            return Listagem();
+            return List();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

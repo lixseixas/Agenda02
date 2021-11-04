@@ -27,11 +27,12 @@ namespace TesteAgenda02
             services.AddControllersWithViews();
 
             // Add framework services.
-            services.AddDbContext<AgendaContexto>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<TaskContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //descomente para utilizar o localDB
-            //options.UseSqlServer(Configuration.GetConnectionString("LocalDbConnection")));
+            services.AddDbContext<TaskContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("LocalDbConnection")));
 
 
             // Add framework services.
@@ -39,7 +40,7 @@ namespace TesteAgenda02
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AgendaContexto context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TaskContext context)
         {
             if (env.IsDevelopment())
             {
