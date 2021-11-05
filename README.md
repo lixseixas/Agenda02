@@ -7,12 +7,15 @@
 
 
 # Preview
+# ------------------------- Home ------------------------- 
+![alt text](https://github.com/lixseixas/Agenda02/blob/main/TaskProject/ImgPreview/sis_home.png)
+
 # ------------------------- List ------------------------- 
-![alt text](https://github.com/lixseixas/Agenda02/blob/main/sis_listagem.png)
+![alt text](https://github.com/lixseixas/Agenda02/blob/main/TaskProject/ImgPreview/sis_list.png)
 
 # --------------Summarize the interval ------------------- 
-![alt text](https://github.com/lixseixas/Agenda02/blob/main/sis_hours.png)
+![alt text](https://github.com/lixseixas/Agenda02/blob/main/TaskProject/ImgPreview/sis_hours.png)
 
 #  -------------------- add/edit  ------------------------ 
-![alt text](https://github.com/lixseixas/Agenda02/blob/main/sis_include.png)
+![alt text](https://github.com/lixseixas/Agenda02/blob/main/TaskProject/ImgPreview/sis_include.png)
 
