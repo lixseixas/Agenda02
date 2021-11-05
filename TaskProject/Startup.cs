@@ -34,6 +34,7 @@ namespace TaskProject
             services.AddDbContext<TaskContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("LocalDbConnection")));
 
+            services.AddRazorPages().AddRazorRuntimeCompilation();
 
             // Add framework services.
             services.AddMvc();
@@ -64,6 +65,8 @@ namespace TaskProject
             });
 
             DbInitializer.Initialize(context);
+
+            app.UseBrowserLink();
         }
     }
 }
