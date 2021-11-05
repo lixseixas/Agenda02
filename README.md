@@ -5,8 +5,6 @@
 ## This project took 8 hours to be concluded.
 # Source: https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-5.0
 
-
-# Preview
 # ------------------------- Home ------------------------- 
 ![alt text](https://github.com/lixseixas/Agenda02/blob/main/TaskProject/ImgPreview/sis_home.png)
 
