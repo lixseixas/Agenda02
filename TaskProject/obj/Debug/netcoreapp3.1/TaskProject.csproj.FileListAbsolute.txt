@@ -79,3 +79,4 @@ E:\Projetos old-testes\C#\TaskProject\TaskProject\obj\Debug\netcoreapp3.1\TaskPr
 E:\Projetos old-testes\C#\TaskProject\TaskProject\obj\Debug\netcoreapp3.1\TaskProject.dll
 E:\Projetos old-testes\C#\TaskProject\TaskProject\obj\Debug\netcoreapp3.1\TaskProject.pdb
 E:\Projetos old-testes\C#\TaskProject\TaskProject\obj\Debug\netcoreapp3.1\TaskProject.genruntimeconfig.cache
+E:\Projetos old-testes\C#\TaskProject\TaskProject\obj\Debug\netcoreapp3.1\TaskProject.csproj.AssemblyReference.cache

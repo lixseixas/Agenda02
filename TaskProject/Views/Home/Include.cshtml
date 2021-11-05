@@ -50,13 +50,13 @@
     </div>
 
     List<SelectListItem> listaTipoItem = new List<SelectListItem>();
-    listaTipoItem.Add(new SelectListItem { Text = "Alta", Value = "3" });
-    listaTipoItem.Add(new SelectListItem { Text = "Média", Value = "2" });
-    listaTipoItem.Add(new SelectListItem { Text = "Baixa", Value = "1" });
+    listaTipoItem.Add(new SelectListItem { Text = "High", Value = "3" });
+    listaTipoItem.Add(new SelectListItem { Text = "Medium", Value = "2" });
+    listaTipoItem.Add(new SelectListItem { Text = "Low", Value = "1" });
 
     @Html.LabelFor(model => model.Priority, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-5">
-        @Html.DropDownListFor(model => model.Priority, listaTipoItem, "Selecione a prioridade", new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.Priority, listaTipoItem, "Select the priority", new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger" })
     </div>
 
@@ -69,7 +69,7 @@
     <div class="form-group">
         <div class=" col-md-10">
 
-            <input type="submit" value="Gravar" class="btn btn-primary" />
+            <input type="submit" value="Save" class="btn btn-primary" />
         </div>
     </div>
 
