@@ -10,3 +10,6 @@
 *.suo
 /TaskProject/obj/Debug/netcoreapp3.1/
 *.dll
+/TestProject/obj/Debug/netcoreapp3.1
+/TestProject/obj
+/TestProject/bin/Debug/netcoreapp3.1
