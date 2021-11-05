@@ -26,7 +26,9 @@ namespace TestProject
 
 
             TasksDal taskBd = new TasksDal(_context);
-            bool retorno = taskBd.GetTasks(ref taskList);
+            bool returno = taskBd.GetTasks(ref taskList);
+
+            Assert.IsTrue(returno);
         }
     }
 }
