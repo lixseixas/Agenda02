@@ -50,7 +50,6 @@ E:\Projetos old-testes\C#\TaskProject\TaskProject\bin\Debug\netcoreapp3.1\runtim
 E:\Projetos old-testes\C#\TaskProject\TaskProject\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 E:\Projetos old-testes\C#\TaskProject\TaskProject\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 E:\Projetos old-testes\C#\TaskProject\TaskProject\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-E:\Projetos old-testes\C#\TaskProject\TaskProject\obj\Debug\netcoreapp3.1\TaskProject.csproj.AssemblyReference.cache
 E:\Projetos old-testes\C#\TaskProject\TaskProject\obj\Debug\netcoreapp3.1\TaskProject.GeneratedMSBuildEditorConfig.editorconfig
 E:\Projetos old-testes\C#\TaskProject\TaskProject\obj\Debug\netcoreapp3.1\TaskProject.AssemblyInfoInputs.cache
 E:\Projetos old-testes\C#\TaskProject\TaskProject\obj\Debug\netcoreapp3.1\TaskProject.AssemblyInfo.cs

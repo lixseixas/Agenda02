@@ -6,3 +6,4 @@
 *.v2
 /TaskProject/bin/Debug/netcoreapp3.1
 /.vs/TaskProject/v16/TestStore/0
+/TaskProject/obj/
