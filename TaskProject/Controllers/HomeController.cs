@@ -31,8 +31,8 @@ namespace TaskProject.Controllers
         public IActionResult List()
         {
             List<TaskModel> taskList = new List<TaskModel>();
-            TasksDal taskBd = new TasksDal();
-            bool retorno = taskBd.GetTasks(_context, ref taskList);
+            TasksDal taskBd = new TasksDal(_context);
+            bool retorno = taskBd.GetTasks( ref taskList);
 
             if (retorno == false)
             {
@@ -60,8 +60,8 @@ namespace TaskProject.Controllers
         {
 
             List<SummarizedTasksModel> listaTasks = new List<SummarizedTasksModel>();
-            TasksDal taskBd = new TasksDal();
-            bool retorno = taskBd.GetSummarizedTasks(_context, taskModel.InitialDate,
+            TasksDal taskBd = new TasksDal(_context);
+            bool retorno = taskBd.GetSummarizedTasks(taskModel.InitialDate,
                                                         taskModel.FinalDate, ref listaTasks);
 
             if (retorno == false)
@@ -128,11 +128,9 @@ namespace TaskProject.Controllers
                 return false;
             }
 
-            TasksDal taskBd = new TasksDal();
-            bool retornoSobreposicao = taskBd.ValidateTaskSuperposition(_context,
-                                                                                    taskModel.Id,
-                                                                                    taskModel.Date,
-                                                                                    dataInicioTask, dataFimTask);
+            TasksDal taskBd = new TasksDal(_context);
+            bool retornoSobreposicao = taskBd.ValidateTaskSuperposition(taskModel.Id, taskModel.Date,
+                                                                        dataInicioTask, dataFimTask);
             if (retornoSobreposicao == false)
             {
                 errorMessage = "Superposition of task, please find another date";
@@ -163,8 +161,8 @@ namespace TaskProject.Controllers
             taskModel.InitialHour = taskModel.Date.AddHours(taskModel.InitialHour.Hour).AddMinutes(taskModel.InitialHour.Minute);
             taskModel.FinalHour = taskModel.Date.AddHours(taskModel.FinalHour.Hour).AddMinutes(taskModel.FinalHour.Minute); ;
 
-            TasksDal taskBd = new TasksDal();
-            bool retorno = taskBd.AddTask(_context, taskModel);
+            TasksDal taskBd = new TasksDal(_context);
+            bool retorno = taskBd.AddTask( taskModel);
 
             if (retorno == false)
             {
@@ -178,8 +176,8 @@ namespace TaskProject.Controllers
         {
             TaskModel taskModel = new TaskModel();
 
-            TasksDal taskBd = new TasksDal();
-            bool retorno = taskBd.GetTask(_context, id, ref taskModel);
+            TasksDal taskBd = new TasksDal(_context);
+            bool retorno = taskBd.GetTask(id, ref taskModel);
 
             if (retorno == false)
             {
@@ -208,12 +206,12 @@ namespace TaskProject.Controllers
 
 
             taskModel.Inclusion = "edit";
-            TasksDal taskBd = new TasksDal();
+            TasksDal taskBd = new TasksDal(_context);
 
             taskModel.InitialHour = taskModel.Date.AddHours(taskModel.InitialHour.Hour).AddMinutes(taskModel.InitialHour.Minute);
             taskModel.FinalHour = taskModel.Date.AddHours(taskModel.FinalHour.Hour).AddMinutes(taskModel.FinalHour.Minute); ;
 
-            bool retorno = taskBd.AddTask(_context, taskModel);
+            bool retorno = taskBd.AddTask( taskModel);
             if (retorno == false)
             {
                 return View("Error");

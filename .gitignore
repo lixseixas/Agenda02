@@ -9,3 +9,4 @@
 /TaskProject/obj/
 *.suo
 /TaskProject/obj/Debug/netcoreapp3.1/
+*.dll

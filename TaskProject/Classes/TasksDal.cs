@@ -9,7 +9,14 @@ namespace TaskProject.Bl
 {
     public class TasksDal
     {
-        public bool AddTask(TaskContext context, TaskModel taskModel)
+        private readonly TaskContext _context;
+
+        public TasksDal(TaskContext context)
+        {
+            _context = context;
+        }
+
+        public bool AddTask( TaskModel taskModel)
         {
             try
             {
@@ -17,7 +24,7 @@ namespace TaskProject.Bl
                 {
                     TaskModel obtainedTaskModel = new TaskModel();
 
-                    GetTask(context, taskModel.Id, ref obtainedTaskModel);
+                    GetTask(taskModel.Id, ref obtainedTaskModel);
 
                     obtainedTaskModel.Description = taskModel.Description;
                     obtainedTaskModel.Date = taskModel.Date;
@@ -27,12 +34,12 @@ namespace TaskProject.Bl
                     obtainedTaskModel.Priority = taskModel.Priority;
                     obtainedTaskModel.Ended = taskModel.Ended;
 
-                    context.SaveChanges();
+                    _context.SaveChanges();
                 }
                 else
                 {
-                    context.Tasks.Add(taskModel);
-                    context.SaveChanges();
+                    _context.Tasks.Add(taskModel);
+                    _context.SaveChanges();
                 }
 
                 return true;
@@ -45,11 +52,11 @@ namespace TaskProject.Bl
 
         }
 
-        public bool GetTasks(TaskContext context, ref List<TaskModel> taskList)
+        public bool GetTasks(ref List<TaskModel> taskList)
         {
             try
             {
-                taskList = context.Tasks.OrderBy(p => p.Date).ToList();
+                taskList = _context.Tasks.OrderBy(p => p.Date).ToList();
 
                 foreach (var item in taskList)
                 {
@@ -82,13 +89,13 @@ namespace TaskProject.Bl
 
         }
 
-        public bool GetSummarizedTasks(TaskContext context, DateTime dataInicial, DateTime dataFinal, ref List<SummarizedTasksModel> consolidatedList)
+        public bool GetSummarizedTasks(DateTime dataInicial, DateTime dataFinal, ref List<SummarizedTasksModel> consolidatedList)
         {
             try
             {
                 dataFinal = dataFinal.AddHours(23).AddMinutes(59);
 
-                List<TaskModel> taskList = context.Tasks.Where(p => p.Date >= dataInicial
+                List<TaskModel> taskList = _context.Tasks.Where(p => p.Date >= dataInicial
                                                                    && p.Date <= dataFinal)
                                                         .OrderBy(p => p.Date)
                                                         .ToList();
@@ -141,9 +148,9 @@ namespace TaskProject.Bl
         }
 
 
-        public bool GetTask(TaskContext context, Guid id, ref TaskModel taskModel)
+        public bool GetTask(Guid id, ref TaskModel taskModel)
         {
-            var taskList = context.Tasks.Where(p => p.Id == id).ToList();
+            var taskList = _context.Tasks.Where(p => p.Id == id).ToList();
 
             if (taskList.Count > 0)
             {
@@ -159,12 +166,12 @@ namespace TaskProject.Bl
 
         }
 
-        public bool ValidateTaskSuperposition(TaskContext context, Guid idAgendamento, DateTime data, DateTime dataInicial, DateTime dataFinal)
+        public bool ValidateTaskSuperposition(Guid idAgendamento, DateTime data, DateTime dataInicial, DateTime dataFinal)
         {
             TaskModel itemFound = new TaskModel();
             
             //filter all of tasks with the same date and diferente id
-            var listaFiltrada = context.Tasks.Where(p => p.Date >= data && p.Id != idAgendamento)
+            var listaFiltrada = _context.Tasks.Where(p => p.Date >= data && p.Id != idAgendamento)
                                                                 .OrderBy(p => p.Date).ToList();
                        
             if (listaFiltrada == null) 

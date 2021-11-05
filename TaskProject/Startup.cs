@@ -36,6 +36,8 @@ namespace TaskProject
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
+            services.AddScoped<TasksDal>();
+
             // Add framework services.
             services.AddMvc();
         }
@@ -67,6 +69,8 @@ namespace TaskProject
             DbInitializer.Initialize(context);
 
             app.UseBrowserLink();
+
+            //BackgroundJob.Enqueue<FileWatcher>(fw => fw.Watch());
         }
     }
 }

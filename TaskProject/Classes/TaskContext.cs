@@ -11,7 +11,8 @@ namespace TaskProject.Bl
     {
         public TaskContext(DbContextOptions<TaskContext> options) : base(options)
         {
-        }
+        }       
+
         public DbSet<TaskModel> Tasks { get; set; }      
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
