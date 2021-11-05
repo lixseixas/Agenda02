@@ -3,3 +3,6 @@
 ################################################################################
 
 /TaskProject/bin/Debug/netcoreapp3.1/runtimes/unix/lib/netcoreapp3.1
+*.v2
+/TaskProject/bin/Debug/netcoreapp3.1
+/.vs/TaskProject/v16/TestStore/0
