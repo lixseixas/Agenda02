@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using TaskProject.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace TaskProject.Bl
 {
@@ -11,9 +14,19 @@ namespace TaskProject.Bl
     {
         private readonly TaskContext _context;
 
-        public TasksDal(TaskContext context)
+        public TasksDal()
         {
-            _context = context;
+            _context = GetContext();
+        }
+
+
+       protected TaskContext GetContext()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<TaskContext>();
+            var dbLocation = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["LocalDbConnection"];
+
+            optionsBuilder.UseSqlServer(dbLocation);
+            return new TaskContext(optionsBuilder.Options);
         }
 
         public bool AddTask( TaskModel taskModel)
@@ -84,8 +97,7 @@ namespace TaskProject.Bl
 
                 return false;
             }
-
-            
+                        
 
         }
 
@@ -97,14 +109,13 @@ namespace TaskProject.Bl
 
                 List<TaskModel> taskList = _context.Tasks.Where(p => p.Date >= dataInicial
                                                                    && p.Date <= dataFinal)
-                                                        .OrderBy(p => p.Date)
-                                                        .ToList();
-
+                                                                .OrderBy(p => p.Date)
+                                                                .ToList();
 
                 //daily total hours
-                var listaAgrupadaPorDia = taskList.GroupBy(p => p.Date).ToList();
+                var summarizedListPerDay = taskList.GroupBy(p => p.Date).ToList();
 
-                foreach (var item in listaAgrupadaPorDia)
+                foreach (var item in summarizedListPerDay)
                 {
                     SummarizedTasksModel summarized = new SummarizedTasksModel();
 

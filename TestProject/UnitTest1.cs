@@ -17,15 +17,10 @@ namespace TestProject
         [Test]
         public void Test1()
         {
-
-            var optionsBuilder = new DbContextOptionsBuilder<TaskContext>();
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=TasksDb;Trusted_Connection=True;MultipleActiveResultSets=true");
-                      
-            var _context = new TaskContext(optionsBuilder.Options);
+                       
             List<TaskModel> taskList = new List<TaskModel>();
+            TasksDal taskBd = new TasksDal();
 
-
-            TasksDal taskBd = new TasksDal(_context);
             bool returno = taskBd.GetTasks(ref taskList);
 
             Assert.IsTrue(returno);
