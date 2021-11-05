@@ -7,7 +7,7 @@ using TaskProject.Models;
 
 namespace TestProject
 {
-    public class Tests
+    public class Dbests
     {
         [SetUp]
         public void Setup()
@@ -15,15 +15,14 @@ namespace TestProject
         }
 
         [Test]
-        public void Test1()
+        public void GetTasksTest()
         {
                        
             List<TaskModel> taskList = new List<TaskModel>();
             TasksDal taskBd = new TasksDal();
+            bool methodReturn = taskBd.GetTasks(ref taskList);
 
-            bool returno = taskBd.GetTasks(ref taskList);
-
-            Assert.IsTrue(returno);
+            Assert.IsTrue(methodReturn);
         }
     }
 }
