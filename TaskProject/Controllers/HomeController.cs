@@ -31,6 +31,7 @@ namespace TaskProject.Controllers
         public IActionResult List()
         {
             List<TaskModel> taskList = new List<TaskModel>();
+
             TasksDal taskDb = new TasksDal();
             bool retorno = taskDb.GetTasks( ref taskList);
 
@@ -39,7 +40,22 @@ namespace TaskProject.Controllers
                 return View("Error");
             }
 
-            return View("List", taskList);
+            TaskListModel taskListModel = new TaskListModel();
+            taskListModel.TaskList = taskList;
+
+            return View("List", taskListModel);
+        }
+
+        [HttpPost]
+        public IActionResult List(TaskListModel modelList)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(modelList);
+            }
+           
+
+            return List();
         }
 
         public IActionResult ListHoursPerDay()
