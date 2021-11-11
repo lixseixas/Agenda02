@@ -14,66 +14,64 @@ function FindTasks() {
     //limpar tabela
     $('#TableTasks').empty();
 
-    dataInicial = $("#InitialDate").val();
-    dataFinal = $("#FinalDate").val();
+    dateReceivedInicial = $("#InitialDate").val();
+    dateReceivedFinal = $("#FinalDate").val();
 
-    //Consumindo o serviço
+    //acessing the services
     $.post("http://localhost:50747/Home/ListHoursPerDay/",
         {
-            InitialDate: dataInicial,
-            FinalDate: dataFinal,
-        }, function (dados) {
+            InitialDate: dateReceivedInicial,
+            FinalDate: dateReceivedFinal,
+        }, function (dataReceived) {
+           
+            for (var i = 0; i < dataReceived.listTasksSummarized.length; i++) {
 
-            //preenchendo a lista de resultados
-            for (var i = 0; i < dados.listTasksSummarized.length; i++) {
-
-                $('#TableTasks').append('<tr><td>' + ConverterDataJson(dados.listTasksSummarized[i].date) +
-                    '</td><td>' + ConverterHoraSimples(dados.listTasksSummarized[i].hours) +
-                    '</td><td>' + dados.listTasksSummarized[i].totalTasks +
-                    '</td><td>' + ConverterHoraSimples(dados.listTasksSummarized[i].averageHours) +
-                    '</td><td>' + dados.listTasksSummarized[i].percentualConcludedTasks + "%" +
+                $('#TableTasks').append('<tr><td>' + ConvertJsonDate(dataReceived.listTasksSummarized[i].date) +
+                    '</td><td>' + ConvertSimpleHour(dataReceived.listTasksSummarized[i].hours) +
+                    '</td><td>' + dataReceived.listTasksSummarized[i].totalTasks +
+                    '</td><td>' + ConvertSimpleHour(dataReceived.listTasksSummarized[i].averageHours) +
+                    '</td><td>' + dataReceived.listTasksSummarized[i].percentualConcludedTasks + "%" +
                     '</td></tr>');
             }
-
 
         });
 }
 
 
-function ConverterDataJson(data) {
+function ConvertJsonDate(dateReceived) {
 
-    if (data == null || data.length == 0) {
+    if (dateReceived == null || dateReceived.length == 0) {
         return " /  /  "
     } else {
-        var ano = data.substring(0, 4);
-        var mes = data.substring(5, 7);
-        var dia = data.substring(8, 10);
+        var year = dateReceived.substring(0, 4);
+        var month = dateReceived.substring(5, 7);
+        var day = dateReceived.substring(8, 10);
 
-        return dia + "/" + mes + "/" + ano;
+        return day + "/" + month + "/" + year;
 
     }
 }
 
-function ConverterHoraJson(data) {
+function ConvertJsonHour(dateReceived) {
 
-    if (data == null || data.length == 0) {
+    if (dateReceived == null || dateReceived.length == 0) {
         return " : :  "
     } else {
-        var hora = data.substring(11, 13);
-        var minuto = data.substring(14, 16);
+        var hora = dateReceived.substring(11, 13);
+        var minuto = dateReceived.substring(14, 16);
 
         return hora + ":" + minuto;
 
     }
 }
 
-function ConverterHoraSimples(data) {
+function ConvertSimpleHour(dateReceived) {
 
-    if (data == null || data.length == 0) {
+    if (dateReceived == null || dateReceived.length == 0) {
         return " :  "
     } else {
-        var hora = data.substring(0, 2);
-        var minuto = data.substring(3, 5);
+        var hora = dateReceived.substring(0, 2);
+        var minuto = dateReceived.substring(3, 5);
 
         return hora + ":" + minuto;
 
