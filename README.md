@@ -1,5 +1,5 @@
 # Agenda02
-## Any needed dependencis are already loaded by nuget and sent to GITHUB
+## Any needed dependencies are already loaded by nuget and sent to GITHUB
 ## This project was developed in VISUAL STUDIO COMMUNITY 2019.
 ## The EntityFramework must create any needed table.
 ## This project took 11 hours to be concluded.
