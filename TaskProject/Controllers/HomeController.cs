@@ -90,7 +90,6 @@ namespace TaskProject.Controllers
 
         }
 
-
         public IActionResult Include()
         {
             TaskModel taskModel = new TaskModel();
@@ -236,10 +235,38 @@ namespace TaskProject.Controllers
             return List();
         }
 
+
+        public IActionResult TestAspNetFunctions()
+        {
+            TestAspNetFunctionsModel taskModel = new TestAspNetFunctionsModel();           
+            return View(taskModel);
+        }
+
+        [HttpPost]
+        public IActionResult TestAspNetFunctions(TestAspNetFunctionsModel taskModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(taskModel);
+            }                       
+
+            if (!string.IsNullOrWhiteSpace(taskModel.InputA)  && !string.IsNullOrWhiteSpace(taskModel.InputB) )
+            {
+                taskModel.OutPut = taskModel.InputA + taskModel.InputB;
+               // return View(taskModel);
+                return View("TestAspNetFunctions", taskModel);
+            }
+                                  
+
+            return List();
+        }
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

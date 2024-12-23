@@ -77,3 +77,23 @@ function ConvertSimpleHour(dateReceived) {
 
     }
 }
+
+
+
+$("#btnCallJs").click(function () {
+
+    JsJsCalled();
+
+});
+
+function JsJsCalled() {
+
+    inputA = $("#InputA").val();
+    inputB = $("#InputB").val();
+
+    var concat = inputA + " " + inputB
+
+    alert("Js Called " );
+
+    $("#OutPut").val(concat);
+}
